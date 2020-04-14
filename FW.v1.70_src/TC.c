@@ -1,0 +1,353 @@
+//
+
+#include <TC.h>
+
+void TCinit(void)
+{
+// Timer/Counter 0 initialization
+// Clock source: System Clock
+// Clock value: 31,250 kHz
+
+    //TCCR0 Ц Timer/Counter Control Register
+        //Bit 2:0 Ц CS02:0: Clock Select
+            //0 0 0 No clock source (Timer/Counter stopped).
+            //0 0 1 clk I/O /(No prescaling)
+            //0 1 0 clk I/O /8 (From prescaler)
+            //0 1 1 clk I/O /64 (From prescaler)
+            //1 0 0 clk I/O /256 (From prescaler)
+            //1 0 1 clk I/O /1024 (From prescaler)
+            //1 1 0 External clock source on T0 pin. Clock on falling edge.
+            //1 1 1 External clock source on T0 pin. Clock on rising edge.
+
+    TCCR0=(1<<CS02) | (0<<CS01) | (0<<CS00);
+
+    //TCNT0 Ц Timer/Counter Register
+    TCNT0=0x06;
+
+    //TCCR1A Ц Timer/Counter 1 Control Register A
+        //Bit 7:6 Ц COM1A1:0: Compare Output Mode for channel A
+        //Bit 5:4 Ц COM1B1:0: Compare Output Mode for channel B
+        //Bit 3 Ц FOC1A: Force Output Compare for channel A
+        //Bit 2 Ц FOC1B: Force Output Compare for channel B
+        //Bit 1:0 Ц WGM11:0: Waveform Generation Mode
+    //TCCR1B Ц Timer/Counter 1 Control Register B
+        //Bit 7 Ц ICNC1: Input Capture Noise Canceler
+        //Bit 6 Ц ICES1: Input Capture Edge Select
+        //Bit 5 Ц Reserved Bit
+        //Bit 4:3 Ц WGM13:2: Waveform Generation Mode
+        //Bit 2:0 Ц CS12:0: Clock Select
+    //TCNT1H and TCNT1L Ц Timer/Counter 1
+    //OCR1AH and OCR1AL Ц Output Compare Register 1 A
+    //OCR1BH and OCR1BL Ц Output Compare Register 1 B
+    //ICR1H and ICR1L Ц Input Capture Register 1
+    
+// Timer/Counter 1 initialization
+// Clock source: System Clock
+// Clock value: 125,000 kHz
+// Mode: Ph. correct PWM top=ICR1
+// OC1A output: Non-Inverted PWM
+// OC1B output: Disconnected
+// Noise Canceler: Off
+// Input Capture on Falling Edge
+// Timer Period: 10 ms
+// Output Pulse(s):
+// OC1A Period: 10 ms Width: 0 us
+// Timer1 Overflow Interrupt: Off
+// Input Capture Interrupt: Off
+// Compare A Match Interrupt: Off
+// Compare B Match Interrupt: On
+TCCR1A=(1<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (1<<WGM11) | (0<<WGM10);
+    if (eHSM[3])
+    //ƒл€ Clock value: 125,000 kHz ≥ в≥дпов≥дно частоти Ў≤ћ 100√ц
+    TCCR1B=(0<<ICNC1) | (0<<ICES1) | (1<<WGM13) | (0<<WGM12) | (0<<CS12) | (1<<CS11) | (1<<CS10);
+    else
+    //ƒл€ Clock value: 7,812 kHz ≥ в≥дпов≥дно частоти Ў≤ћ 6,25√ц
+    TCCR1B=(0<<ICNC1) | (0<<ICES1) | (1<<WGM13) | (0<<WGM12) | (1<<CS12) | (0<<CS11) | (1<<CS10);
+TCNT1H=0x00;
+TCNT1L=0x00;
+ICR1H=0x02;
+ICR1L=0x71;
+OCR1AH=0x00;
+OCR1AL=0x00;
+OCR1BH=0x02;
+OCR1BL=0x71;    
+
+// Timer/Counter 2 initialization
+// Clock source: System Clock
+// Clock value: 125,000 kHz
+// Mode: Normal top=0xFF
+// OC2 output: Disconnected
+// Timer Period: 1,024 ms
+
+    //TCCR2 Ц Timer/Counter Control Register
+        //Bit 7 Ц FOC2: Force Output Compare
+        //Bit 6,3 Ц WGM21:0: Waveform Generation Mode
+        //Bit 5:4 Ц COM21:0: Compare Match Output Mode
+        //Bit 2:0 Ц CS22:0: Clock Select
+    //TCNT2 Ц Timer/Counter Register
+    //OCR2 Ц Output Compare Register
+    //ASSR Ц Asynchronous Status Register
+        //Bit 3 Ц AS2: Asynchronous Timer/Counter2
+        //Bit 2 Ц TCN2UB: Timer/Counter2 Update Busy
+        //Bit 1 Ц OCR2UB: Output Compare Register2 Update Busy
+        //Bit 0 Ц TCR2UB: Timer/Counter Control Register2 Update Busy
+
+ASSR=0x00;
+TCCR2=0x04;
+TCNT2=0x80;
+OCR2=0x00;
+
+// Timer(s)/Counter(s) Interrupt(s) initialization
+    //TIMSK Ц Timer/Counter Interrupt Mask Register
+        //Bit 0 Ц TOIE0: Timer/Counter0 Overflow Interrupt Enable
+        //Bit 2 Ц TOIE1: Timer/Counter1, Overflow Interrupt Enable
+        //Bit 3 Ц OCIE1B: Timer/Counter1, Output Compare B Match Interrupt Enable
+        //Bit 4 Ц OCIE1A: Timer/Counter1, Output Compare A Match Interrupt Enable
+        //Bit 5 Ц TICIE1: Timer/Counter1, Input Capture Interrupt Enable
+        //Bit 6 Ц TOIE2: Timer/Counter2 Overflow Interrupt Enable
+        //Bit 7 Ц OCIE2: Timer/Counter2 Output Compare Match Interrupt Enable
+
+TIMSK=(0<<OCIE2) | (1<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (1<<OCIE1B) | (0<<TOIE1) | (1<<TOIE0);
+}
+
+
+//--------------------------------------------------------------------
+// Timer 0 overflow interrupt service routine
+interrupt [TIM0_OVF] void timer0_ovf_isr(void)
+{
+    TCNT0=0x06;                                         //пере≥н≥ц≥ал≥зац≥€ таймера
+    
+    static byte /*t_ss = 0,*/ t_blk = 0, t_pid = 0, nd = 0;
+    static byte KeyCount = 0, OldKeyPress = 0;
+    static unsigned int t_time = 0;
+    static int ADCFirDispVal = 0;
+    static unsigned int FirDisp[8], FirDisp_i;
+    
+    //PID calculate enabled
+    if (++t_pid == T_PID)                               //«апуск ѕ≤ƒ розрахунку з пер≥одом 200ms
+    {
+        ADCValPID = ((long)ADCVal*Kg/10L + (long)Ks*40L)/4;
+        FirDisp_i = ADCValPID/10;
+        
+        //FIR filter for display
+        ADCFirDispVal = ADCFirDispVal - FirDisp[nd] + FirDisp_i;
+        FirDisp[nd] = FirDisp_i;
+        if (++nd == 8) nd = 0;
+        ADCDispVal = (ADCFirDispVal + 4)/8;
+        
+        enPID = 1;
+        enErrCheck = 1;                                 //дозвол€Їм запуск функц≥њ детектора помилки
+        t_pid = 0;
+    }
+    
+    //Timer, SS
+    /*if (!isSS)                                          //€кщо не —офт—тарт
+    {*/
+        if (tRst)
+        {
+            DotDisp = 0;
+            if (!--tRst)
+            {
+                t_time = 0;
+                if (TimerEn) DotDisp = 3;
+            }
+        }
+
+        if (isStab && tval && (++t_time == CPS0_M))     //в≥драховуЇм 1 хвилину
+        {
+            tval--;
+            t_time = 0;
+        }
+    /*}
+    else                                                //€кщо —офт—тарт
+    {
+        if (++t_ss == CPS0_S*Tss/1000)                  //затримка м≥ж запусками функц≥њ —офт—тарту
+        {
+            enSS = 1;
+            t_ss = 0;
+        }    
+    }*/
+
+    //Button presed
+    if (!KeyPress)                                      //€кщо все оброблено або кнопка не натискалась
+    {
+        if (BT_OK)
+        {
+            KeyPress = 1;                               //€кщо нажата кнопка енкодера
+            if (OldKeyPress) KeyCount++;                //€кщо попереднЇ значенн€ кнопки дор≥внюЇ поточному то KeyCount++
+            else KeyCount = 0;
+            OldKeyPress = KeyPress;                     //попередньому значенню кнопки встановити поточне
+            KeyPress = 0; 
+
+            if (KeyCount == CPS0_S*T_COUNT/1000)        //€кщо довге утримуванн€ кнопки
+            {
+                KeyPress = OK_LNG;                      //ƒовге натисненн€ на кнопку
+                KeyCount = 0;
+            }
+        }
+        else
+        {
+            if (OldKeyPress) KeyPress = OK_SHT;         //€кщо перед цим нажмалась "ќ "
+            KeyCount = 0;                       
+            OldKeyPress = 0;
+        }
+    }
+
+    //STAB delay
+    if (!isStab && stab_delay)                          //затримка перед показом стаб≥л≥зац≥њ температури (зелений д≥од)
+    {
+        if (--stab_delay == 0)
+        {
+            isStab = 1;
+            enStabBeep = 1;
+        }
+    }
+    
+    //MODE delay
+    if (m_delay) m_delay--;                             //€кщо включена затримка режиму, зменшити њњ
+
+    //BLINK delay
+    if (!enBlk)                                         //€кщо заборонено мигати
+    {
+        isBlk = 0;
+        t_blk = 0;
+    }
+    else                                                //€кщо доволено мигати
+    {
+        if (!BlinkDelay)
+        {
+            if (++t_blk == CPS0_S/4)                    //затримка м≥ж миганн€ми
+            {
+                isBlk = ~isBlk;                         //помигать
+                t_blk = 0;
+            }
+        }
+        else
+        {
+            isBlk = 0;
+            BlinkDelay--;
+        }
+    }
+    
+    // ормим собаку,- watchdog timer reset
+    #asm("wdr")
+}
+
+//--------------------------------------------------------------------
+// Timer1 overflow interrupt service routine
+//interrupt [TIM1_OVF] void timer1_ovf_isr(void)
+//{
+
+//}
+
+//--------------------------------------------------------------------
+interrupt [TIM1_COMPB] void TC1compA_ovf(void)
+{
+
+//PORTC.1=1;
+        //Start the AD conversion
+        ADCSRA |= (1<<ADSC);
+}
+
+//--------------------------------------------------------------------
+// Timer2 overflow interrupt service routine
+interrupt [TIM2_OVF] void timer2_ovf_isr(void)
+{
+    // Reinitialize Timer2 value
+    TCNT2=0x80;
+
+    static byte tDisp = 0;
+    static byte CurDg=0;                                //поточний розр€д
+    static byte dSmb;                                   //поточний символ поточного розр€ду
+    
+    if (tDisp > 1)
+    {
+        if (!isBlk) dSmb = Disp[CurDg];                 //перев≥рка на миганн€ символом
+        else
+        {
+            switch (CurDg)                              //виб≥р поточного розр€ду
+            {
+                case 0:
+                {
+                    if (enBlk > 2) dSmb = 10;
+                    else dSmb = Disp[CurDg];
+                    break;
+                };
+                case 1:
+                {
+                    if (enBlk > 1) dSmb = 10;
+                    else dSmb = Disp[CurDg];                
+                    break;
+                };
+                case 2:
+                {
+                    if (enBlk > 0) dSmb = 10;
+                    else dSmb = Disp[CurDg];
+                    break;
+                };
+            }
+        }
+        if (DispCmn == CAD)                                             //€кщо ≥ндикатор з загальним анодом (CA)
+        {
+            SgA=1; SgB=1; SgC=1; SgD=1; SgE=1; SgF=1; SgG=1; SgP=1;     //вимикаЇмо сегменти
+            Dg1=0; Dg2=0; Dg3=0;                                        //вимикаЇмо розр€ди
+
+            switch (CurDg)                                              //виб≥р поточного розр€ду
+            {
+                case 0:{Dg1=1; break;};                                 //вмикаЇмо 1й розр€д
+                case 1:{Dg2=1; break;};                                 //вмикаЇмо 2й розр€д
+                case 2:{Dg3=1; break;};                                 //вмикаЇмо 3й розр€д
+            }
+
+            SgA = ~(SymbolsCCD[dSmb]>>6)&0b0000001;
+            SgB = ~(SymbolsCCD[dSmb]>>5)&0b0000001;
+            SgC = ~(SymbolsCCD[dSmb]>>4)&0b0000001;
+            SgD = ~(SymbolsCCD[dSmb]>>3)&0b0000001;
+            SgE = ~(SymbolsCCD[dSmb]>>2)&0b0000001;
+            SgF = ~(SymbolsCCD[dSmb]>>1)&0b0000001;
+            SgG = ~(SymbolsCCD[dSmb]>>0)&0b0000001;
+            
+            switch (DotDisp)                                            //в≥добразити точку €кщо потр≥бно
+            {
+                case 0:{SgP = 1; break;};
+                case 3:{if (CurDg == 2) SgP = 0; break;};
+                case 2:{if (CurDg == 1) SgP = 0; break;};
+                case 1:{if (CurDg == 0) SgP = 0; break;};
+            }
+        }
+        else                                                            //€кщо ≥ндикатор з загальним катодом (CC)
+        {
+            SgA=0; SgB=0; SgC=0; SgD=0; SgE=0; SgF=0; SgG=0; SgP=0;     //вимикаЇмо сегменти
+            Dg1=1; Dg2=1; Dg3=1;                                        //вимикаЇмо розр€ди
+
+            switch (CurDg)                                              //виб≥р поточного розр€ду
+            {
+                case 0:{Dg1=0; break;};
+                case 1:{Dg2=0; break;};
+                case 2:{Dg3=0; break;};        
+            }
+
+            SgA = (SymbolsCCD[dSmb]>>6)&0b0000001;
+            SgB = (SymbolsCCD[dSmb]>>5)&0b0000001;
+            SgC = (SymbolsCCD[dSmb]>>4)&0b0000001;
+            SgD = (SymbolsCCD[dSmb]>>3)&0b0000001;
+            SgE = (SymbolsCCD[dSmb]>>2)&0b0000001;
+            SgF = (SymbolsCCD[dSmb]>>1)&0b0000001;
+            SgG = (SymbolsCCD[dSmb]>>0)&0b0000001;
+            
+            switch (DotDisp)                                            //в≥добразити точку €кщо потр≥бно
+            {
+                case 0:{SgP = 0; break;};
+                case 3:{if (CurDg == 2) SgP = 1; break;};
+                case 2:{if (CurDg == 1) SgP = 1; break;};
+                case 1:{if (CurDg == 0) SgP = 1; break;};
+            }
+        }
+
+        if (CurDg<3) CurDg++; else CurDg=0;                             //перемиканн€ розр€д≥в
+        tDisp = 0;
+    }
+    tDisp++;
+    
+    PollEncoder();
+}

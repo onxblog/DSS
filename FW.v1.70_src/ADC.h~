@@ -1,0 +1,13 @@
+//
+
+void ADCinit (void);
+
+volatile unsigned int ADCDispVal = 0;
+volatile unsigned int ADCValPID = 0;                        //Зчитана температура для ПІД (в 10 рази більша)
+volatile int ADCVal = 0;                                    //Зчитана температура 4x
+
+
+//volatile bit okADC = 0;
+void getADC(void);                                          //Читання АЦП
+
+interrupt [ADC_INT] void ADCCmpl(void);
