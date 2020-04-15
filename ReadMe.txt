@@ -2,7 +2,8 @@
 
 This station designed in Ukraine and in code have Ukrainian annotation.
 Digital Soldering Station (next DSS) designed for iron solder HAKKO 936
-Compatible with Lukey 868 852D+ 936+ irons and many ather builded on ceramic HAKKO A1321 part.  
+Compatible with Lukey 868 852D+ 936+ irons and many others builded on ceramic HAKKO A1321 part.  
+DSS have 3 digit led display, speaker 
 
 SRC coded in CodeVisionAVR
 Firmware autor Victor_P Ukraine
@@ -17,3 +18,13 @@ Firmware autor Victor_P Ukraine
 Рекомендую прочесть инструкцию, что бы увидеть какой огромный функционал имеет дання станция.
 Данные паяльники HAKKO 936 по сей день остаются весьма популярны по причине дешевых расходников и наличия медных жал.
 И довольно качесивенного 60Ват керасического нагревателя.
+
+Технические характеристики: 
+ Диапазон поддерживаемых температур – 80-420°C; 
+ Алгоритм нагрева – ПИ; 
+ Таймер дежурного режима и выключения – есть, совмещенный настраиваемый; 
+ Программный детектор активности паяльника – есть, настраиваемый; 
+ Количество профилей паяльников – 2; 
+ Количество предварительно установленных температур от 3 до 8, настраиваемые; 
+ Программная калибровка – есть; 
+ Плавный разогрев – есть. 
