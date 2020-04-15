@@ -3,7 +3,7 @@
 This station designed in Ukraine and in code have Ukrainian annotation.
 Digital Soldering Station (next DSS) designed for iron solder HAKKO 936
 Compatible with Lukey 868 852D+ 936+ irons and many others builded on ceramic HAKKO A1321 part.  
-DSS have 3 digit led display, speaker 
+DSS have 3 digit led display, buzzer, soft start, programm detector activity, user profilies, encoder managment interface. 
 
 SRC coded in CodeVisionAVR
 Firmware autor Victor_P Ukraine
