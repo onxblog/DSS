@@ -2841,7 +2841,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="3.09" y="13.975" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="10.34" y="16.555" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="C6" library="rcl" package="C0805" value="92pf" x="30.64" y="61.89" smashed="yes" rot="MR180">
+<element name="C6" library="rcl" package="C0805" value="140pf" x="30.64" y="61.89" smashed="yes" rot="MR180">
 <attribute name="NAME" x="29.37" y="60.62" size="1.27" layer="26" rot="MR180"/>
 <attribute name="VALUE" x="28.87" y="60.68" size="1.27" layer="28" rot="MR180"/>
 </element>
@@ -2889,7 +2889,7 @@ design rules under a new name.</description>
 <attribute name="OC_NEWARK" value="unknown" x="66" y="41.79" size="1.778" layer="28" rot="MR270" display="off"/>
 <attribute name="VALUE" x="44.41" y="82.43" size="1.27" layer="28" rot="MR270"/>
 </element>
-<element name="L1" library="eagle-ltspice" library_urn="urn:adsk.eagle:library:217" package="L4532P" package3d_urn="urn:adsk.eagle:package:13289/1" value="100uH/250mA" x="28.02" y="73.64" smashed="yes" rot="MR0">
+<element name="L1" library="eagle-ltspice" library_urn="urn:adsk.eagle:library:217" package="L4532P" package3d_urn="urn:adsk.eagle:package:13289/1" value="210uH/250mA" x="28.02" y="73.64" smashed="yes" rot="MR0">
 <attribute name="NAME" x="28.675" y="76.18" size="1.27" layer="26" rot="MR0"/>
 <attribute name="SPICEMODEL" value="NONE" x="-34.21" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="SPICEPREFIX" value="L" x="-34.21" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
@@ -2949,7 +2949,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="19.89" y="60.62" size="1.27" layer="26" rot="MR180"/>
 <attribute name="VALUE" x="20.64" y="60.68" size="1.27" layer="28" rot="MR180"/>
 </element>
-<element name="R15" library="rcl" package="R0805" value="0.75R" x="20.19" y="66.39" smashed="yes" rot="MR270">
+<element name="R15" library="rcl" package="R0805" value="1R" x="20.19" y="66.39" smashed="yes" rot="MR270">
 <attribute name="NAME" x="18.92" y="67.91" size="1.27" layer="26" rot="MR270"/>
 <attribute name="VALUE" x="17.77" y="63.84" size="1.27" layer="28" rot="MR90"/>
 </element>
