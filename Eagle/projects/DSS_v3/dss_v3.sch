@@ -21280,12 +21280,12 @@ Source: www.kingbright.com</description>
 <part name="R11" library="rcl" deviceset="R-EU_" device="R0805" value="3.3K"/>
 <part name="R12" library="rcl" deviceset="R-EU_" device="R0805" value="150K"/>
 <part name="C3" library="rcl" deviceset="C-EU" device="C0805" value="100nF"/>
-<part name="C4" library="rcl" deviceset="CPOL-EU" device="CT6032" value="10uF/25v"/>
+<part name="C4" library="rcl" deviceset="CPOL-EU" device="CT3528" value="10uF/25v"/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="R13" library="rcl" deviceset="R-EU_" device="R0805" value="1k"/>
 <part name="R14" library="rcl" deviceset="R-EU_" device="R0805" value="3K"/>
 <part name="R15" library="rcl" deviceset="R-EU_" device="R0805" value="1R"/>
-<part name="C6" library="rcl" deviceset="C-EU" device="C0805" value="140pf"/>
+<part name="C6" library="rcl" deviceset="C-EU" device="C0805" value="154pf"/>
 <part name="C7" library="rcl" deviceset="CPOL-EU" device="E3.5-8" value="500u/6.3v"/>
 <part name="C8" library="rcl" deviceset="CPOL-EU" device="E3.5-8" value="100u/35v"/>
 <part name="D2" library="diode" deviceset="DIODE-" device="DO214AC" value="SS14"/>
