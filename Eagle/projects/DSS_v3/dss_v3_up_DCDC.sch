@@ -7,7 +7,7 @@
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="16" fill="1" visible="no" active="no"/>
@@ -33088,11 +33088,15 @@ EC12E series with push-on switch</description>
 <sheets>
 <sheet>
 <plain>
-<text x="-15.24" y="60.96" size="1.27" layer="97">R7 подбор 40-63 Ом
+<text x="25.4" y="35.56" size="1.27" layer="97">R7 подбор 40-63 Ом
 равно сопротивлению
 т.резистора паяльника
 при комнатной t=22С
-минус 3-5 Ом</text>
+минус 3-5 Ом
+Базовая калибровка:
+При снаятом джампере отображаемая
+температура жала должна
+соответсвовать комнотной.</text>
 <text x="8.636" y="41.656" size="1.778" layer="91">+5V</text>
 <text x="-33.02" y="43.18" size="1.778" layer="91">+24v</text>
 <text x="13.97" y="23.876" size="0.8128" layer="97">отключение нагрева жала для калибровки температуры резистором R7</text>
@@ -33101,7 +33105,7 @@ EC12E series with push-on switch</description>
 <text x="214.63" y="18.288" size="1.27" layer="91">b</text>
 <text x="-14.478" y="14.224" size="1.778" layer="97">R4 Зависит от операционного
              усилителя</text>
-<text x="-101.6" y="-43.18" size="1.778" layer="97">or</text>
+<text x="-101.346" y="-42.418" size="1.778" layer="97">or</text>
 </plain>
 <instances>
 <instance part="IC1" gate="G$1" x="-60.96" y="-27.94" smashed="yes">
@@ -33229,7 +33233,7 @@ EC12E series with push-on switch</description>
 </instance>
 <instance part="C8" gate="G$1" x="-104.14" y="-40.64" smashed="yes">
 <attribute name="NAME" x="-102.997" y="-40.1574" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-102.997" y="-45.2374" size="1.778" layer="96"/>
+<attribute name="VALUE" x="-108.077" y="-45.2374" size="1.778" layer="96"/>
 </instance>
 <instance part="D2" gate="G$1" x="-30.48" y="-43.18" smashed="yes" rot="R90">
 <attribute name="NAME" x="-30.9626" y="-40.64" size="1.778" layer="95" rot="R90"/>
@@ -33366,7 +33370,7 @@ EC12E series with push-on switch</description>
 </instance>
 <instance part="C5" gate="G$1" x="-96.52" y="-40.64" smashed="yes">
 <attribute name="NAME" x="-95.377" y="-40.1574" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-95.377" y="-45.2374" size="1.778" layer="96"/>
+<attribute name="VALUE" x="-97.917" y="-47.7774" size="1.778" layer="96"/>
 </instance>
 <instance part="ON-OFF_HEAT" gate="A" x="33.02" y="30.48" smashed="yes" rot="R90">
 <attribute name="NAME" x="38.1" y="27.94" size="1.778" layer="95" rot="R180"/>
